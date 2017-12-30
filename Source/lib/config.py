@@ -1,7 +1,7 @@
 
 EMAIL_CONFIG = {
     'user': 'firstbestma@126.com',
-    'password': 'Xiaoma_469341318',
+    'password': 'xxxx',
     'mail_host': 'smtp.126.com',
 }
 
