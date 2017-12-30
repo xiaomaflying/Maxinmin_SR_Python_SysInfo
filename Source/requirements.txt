@@ -1,0 +1,4 @@
+paramiko
+pycrypto
+psutil
+mysql-connector-python
