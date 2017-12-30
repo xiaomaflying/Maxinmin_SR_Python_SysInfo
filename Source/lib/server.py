@@ -23,9 +23,12 @@ def parse2text(d):
 
 
 def run(xml_path):
+    # Read the xml config
     config = XMLParser(xml_path)
     config_obj = config.parse2obj()
     email_to_list = [config_obj['info']['mail'], ]
+
+    # Establish the connection to the windows client
     conn = SSHConnector(config_obj['info'])
     tmp_dirname = b'SysInfo'
     conn.exec_command(b'mkdir ' + tmp_dirname)
@@ -46,18 +49,20 @@ def run(xml_path):
 
     print('Finish collecting data ')
 
+    # Decrypted the data
     plain_text = Fernet(CRYPTO_KEY).decrypt(stdoutdata)
     plain_text = plain_text.decode()
     sysinfo = json.loads(plain_text)
     email_content = parse2text(sysinfo)
 
-    # insert into database
+    # Insert the statistic data into database
     connector = DBConnector(cf.DB_CONFIG)
     info = config_obj['info']
     connector.execute_insert_sql(info['ip'], info['username'], info['mail'], plain_text)
     connector.close()
     conn.close()
 
+    # Send Email to the user
     print('Sending Email ...')
     send_mail(email_content, 'System Info', email_to_list)
     print('Success! Check the email and have a coffee to celebrate.')

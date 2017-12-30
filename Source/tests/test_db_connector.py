@@ -18,11 +18,11 @@ def import_sql_script(conf, sql_script):
 class DBConnectorTest(unittest.TestCase):
 
     def setUp(self):
-        sql_script = 'data/db_scripts.sql'
+        sql_script = 'tests/data/db_scripts.sql'
         import_sql_script(DB_CONFIG, sql_script=sql_script)
 
     def tearDown(self):
-        sql_script = 'data/drop_db.sql'
+        sql_script = 'tests/data/drop_db.sql'
         import_sql_script(DB_CONFIG, sql_script=sql_script)
 
     def test_init(self):
